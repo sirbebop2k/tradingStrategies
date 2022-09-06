@@ -1,0 +1,61 @@
+hello
+
+
+226: Bryn Solomon
+
+there are many many ways of gaining edge
+you just have to think what yours is...
+mine is certainly not news lol but it could be (other peoples')
+
+note: momentum may work better with 'smaller' coins, less competitive market
+
+spoofing is definitely going down on established crypto exchanges
+
+Protocols / DeFi : no fees, completely unregulated. Perhaps easier to find an edge, too.
+Look at Protocols:
+- Uniswap
+- Sushiswap
+
+
+Journey Log:
+- first decided to simple MACD as outlined above, on Kraken exchange
+- my hypothesis: crypto (bitcoin) returns folow momentum patterns, the trick is to find the right window
+- wrote infrastructure (connecting to Kraken API, sending orders, etc.)
+- coded backtester for MACD strategy, downloaded historical OHLCVT data from Kraken
+- playing with MACD strategy inputs (windows, periods, etc.)
+- initially looked good over past year(s), but taking into account fees, were abysmal
+- adjusted MACD strategy to remedy exiting positions too early before major swings
+- still not ideal returns considering fees, thinking of changes
+--- gas fees on DEXs are insane, so that's not really the great viable option I was imagining
+- another source of worry: data. work strictly in closes, but this could be too narrow
+- may have to switch from REST to WebSockets to get more continuous data
+- switch into new, less competitive coins
+- next idea: test out bollinger bands
+- turns out that requirements for trading on margin are absolutely fucked in the us
+
+Future Goals:
+-- Finish Bollinger Band strategy
+-- Investigate skyquake's advice of analyzing insto vs retail w/ histogram, use this to explore coins to trade on
+-- Find way to make MACD strategy real-time on websockets (might not be enough volume to, but hey maybe try?)
+
+- returned ranked list of best and worst performing tokens, with various MACDs(1440, 5, 20, 4)
+--- out1: MACD(1440, 5, 20, 4) (year)
+--- out2: MACD(1440, 12, 26, 9) (year)
+--- out3: MACD(15, 5, 20, 4) (620 obs)
+--- out4: MACD(1440, 20, 40, 15) (year)
+
+we see here that 1.) 12, 26, 9 seems to be trusty, performs better than faster and slower windows,
+2.) ETC is good momentum token, and 3.) very fast windows aren't too good
+
+Looking at ETCUSD backtest (12,26,9), I've noticed:
+king's ransom made on HUGE swings, on ordinary days you're losing money though
+
+ETCUSD (4, 16, 3) performs great, veryyy twitchy
+but (12, 26, 9) still better
+
+Honestly, this is all just very chaotic: small adjustments in parameters (in windows, quantile, etc.) lead to huge differences in performance
+What shines through though is that ETCUSD always performs well--> it's particularly robust
+
+I've learned:
+- Bitcoin and Ethereum don't seem to follow predictable momentum trends based on MACD and Bollinger charts (????)
+- ANKR and SC are great momentum coins
