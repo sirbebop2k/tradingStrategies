@@ -6,7 +6,7 @@ import urllib.request
 import hmac
 import base64
 import pandas as pd
-
+from datetime import datetime
 import requests
 
 api_url = 'https://api.kraken.com'
@@ -77,8 +77,9 @@ def getOHLC(pair, interval=1, timestamp=0, key=key1, secret=secret1):
                                 key, secret).json()
     df = pd.DataFrame((thing['result'])[list(thing['result'])[0]],
                       columns=['time', 'open', 'high', 'low', 'close', 'vwap', 'volume', 'count'])
-    # df['time'] = df['time'].apply(lambda x: datetime.fromtimestamp(x))
+    df['time'] = df['time'].apply(lambda x: datetime.fromtimestamp(x))
     df.set_index('time', inplace=True)
+
     return df
 
 

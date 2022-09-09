@@ -6,14 +6,11 @@ from numpy import quantile
 import time
 
 
-# the basic idea: at 00:00 UTC look at OHLC data,
-# recalculate all MACD data, then trade based on our generated signal
-# try post only limit order to avoid maker fees.
-# this isn't a strategy built on speed, so it isn't essential that we execute instantly.
-# just need to make sure our order executes
+# the basic idea: at 00:00 UTC look at OHLC data (since this is when Kraken releases their daily OHLC)
+# recalculate all past MACD data, then trade based on our generated signal
+# trying post only limit order to avoid maker fees
+# this isn't a strategy built on speed, so it isn't essential that we execute instantly. #
 
-# now, will have to change how the function operates: have it be discrete vs. continuous.
-# run the function again each time at 00:00, the function will look at our balance to use as our position. FIX
 # no need to ensure kraken time is >00:00, but can implement if needed
 
 
