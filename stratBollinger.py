@@ -39,9 +39,37 @@ def getBollinger(pair, interval, window, factor=1, mode='sma'):
 
 
 # purely bollinger strategy #
-# buy/sell when
-def backtestBollinger():
-    pass
+# two philosophies with this:
+# buy when price bottoms out after crossing bottom band
+# buy right when price crosses top band
+# these seem to be at odds with each other, but let's try them individually and together!
+def backtestBollinger(data, starting=100, trade_fees=.0026, frac=1):
+    cash = starting
+    frac = frac
+    holding_num = 0
+    short_day = True
+    indicator = 0
+    num_trades = 0
+    df = pd.DataFrame(index=data.index)
+    df['num trades'] = num_trades
+    df['holdings'] = 0
+    df['cash'] = cash
+    df['total'] = 0
+
+    for i in range(len(data.index)):
+        cross = data.iloc[i,4]
+        cross_last = data.iloc[i-1, 4]
+        close = data.iloc[i,0]
+        close_last = data.iloc[i-1,0]
+
+        if cross == -1 and cross_last == 0:
+            indicator = 1
+        if indicator == 1 and close>close_last:
+            num_trades += 1
+            holding_num += cash * frac / close
+            cash -= holding_num * close * (1 + trade_fee)
+
+# looking at the Bollinger plots, it seems that this strategy won't generate too much. might as well work to implement it, though #
 
 
 

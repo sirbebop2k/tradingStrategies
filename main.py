@@ -19,8 +19,3 @@ import infrastructure as inf
 #     time.sleep(1)
 
 #print(stratMACD.rankCoins(1440, 3, 12, 3, index=124, trade_fee=.001))
-
-
-data = stratBollinger.getBollinger('SCUSD', 1440, 20)
-stratBollinger.plotBollinger(data, start='2022-01-01', end='2022-09-01')
-print(inf.getHoldings())

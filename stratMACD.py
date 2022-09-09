@@ -15,9 +15,9 @@ def getMACDData(pair, interval, fast, slow, third, csv=None, start=None, end=Non
 
     diff_list = (inf.getListEMA(close, window=fast) - inf.getListEMA(close, window=slow))
     diff_ema = inf.getListEMA(diff_list, window=third)
-    close = close.iloc[100:]
-    diff_list = diff_list.iloc[100:]
-    diff_ema = diff_ema.iloc[100:]
+    close = close.iloc[50:]
+    diff_list = diff_list.iloc[50:]
+    diff_ema = diff_ema.iloc[50:]
 
     df = pd.DataFrame(index=close.index)
     df['histogram'] = diff_list - diff_ema

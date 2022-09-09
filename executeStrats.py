@@ -20,7 +20,7 @@ class Bot:
         self.secret = secret
 
     # let's do (4,16,3) on ETCUSD 1440 #
-    def executeMACD(self, coin, interval, fast, slow, third, quant=.1, test=False):
+    def executeMACD(self, coin, interval, fast, slow, third, quant=.1, frac=.99, test=False):
 
         pair = coin + 'USD'
         pos_del = deque()
@@ -45,7 +45,7 @@ class Bot:
         # should implement measures just in case our post order gets cancelled, or never filled by the end #
         # .99 factor to account for fees #
         if this > 0 and last < 0 and coin_balance == 0:
-            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*.99, price=bid-.001,
+            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=bid-.001,
                                 oflags='post', validate=test, key=self.key, secret=self.secret)
 
         elif (this < last) and (coin_balance > 0):
@@ -53,7 +53,7 @@ class Bot:
                                 oflags='post', validate=test, key=self.key, secret=self.secret)
 
         elif this > 0 and (coin_balance == 0) and (this - last > quantile(pos_del, 1 - quant)):
-            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*.99, price=bid-.001,
+            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=bid-.001,
                                 oflags='post', validate=test, key=self.key, secret=self.secret)
 
         df = pd.DataFrame({'position': coin_balance * close,

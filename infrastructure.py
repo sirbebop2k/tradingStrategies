@@ -37,6 +37,9 @@ def kraken_response(urlpath, data, api_key, api_pass):
 
 def getHoldings(coin=None, key=key1, secret=secret1):
     thing = kraken_response('/0/private/Balance', {'nonce': str(int(time.time() * 1000))}, key, secret).json()
+    if thing['error'] == ['EAPI:Invalid key']:
+        raise Exception('Key and/or Secret Invalid')
+
     if coin:
         holding = float(thing['result'][coin])
         return holding
@@ -48,6 +51,9 @@ def getHoldings(coin=None, key=key1, secret=secret1):
 
 def getUSDBalance(key=key1, secret=secret1):
     thing = kraken_response('/0/private/Balance', {'nonce': str(int(time.time() * 1000))}, key, secret).json()
+    if thing['error'] == ['EAPI:Invalid key']:
+        raise Exception('Key and/or Secret Invalid')
+
     balance = float((thing['result'])['ZUSD'])
 
     return balance
@@ -56,12 +62,19 @@ def getUSDBalance(key=key1, secret=secret1):
 def getDepositMethods(key=key1, secret=secret1):
     thing = kraken_response('/0/private/DepositMethods', {'nonce': str(int(time.time() * 1000))}, key,
                             secret).json()
+    if thing['error'] == ['EAPI:Invalid key']:
+        raise Exception('Key and/or Secret Invalid')
+
     return thing['result']
 
 
 def getTradeVolume(key=key1, secret=secret1):
     thing = kraken_response('/0/private/TradeVolume', {'nonce': str(int(time.time() * 1000))}, key, secret).json()
+    if thing['error'] == ['EAPI:Invalid key']:
+        raise Exception('Key and/or Secret Invalid')
+
     df = pd.DataFrame.from_dict(thing['result'], orient='index')
+
     return df
 
 
@@ -119,6 +132,8 @@ def placeLimitOrder(key, secret, pair, direction, volume, price, oflags=None, va
 
     thing = kraken_response('/0/private/AddOrder',
                             conditions, key, secret).json()
+    if thing['error'] == ['EAPI:Invalid key']:
+        raise Exception('Key and/or Secret Invalid')
 
     return thing
 

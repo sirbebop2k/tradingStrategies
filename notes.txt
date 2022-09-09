@@ -59,3 +59,4 @@ What shines through though is that ETCUSD always performs well--> it's particula
 I've learned:
 - Bitcoin and Ethereum don't seem to follow predictable momentum trends based on MACD and Bollinger charts (????)
 - ANKR and SC are great momentum coins
+- MACD doesn't behave as expected, especially during huge momentum swings punctuated by long periods of nothing
