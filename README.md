@@ -2,9 +2,9 @@
 
 Welcome!
 
-With the help of skills picked up in FINMATH 25000: Quantitative Portfolio Management and Algorithmic Trading, along with advice from friends and trusted internet sources, I've embarked on this hopefully profitable project. My strategies are currently simple and conventional. As I become more comfortable with Python and learn/think about different sources of alpha, I aim to implement fresh strategies.
+With the help of skills picked up in FINMATH 25000: Quantitative Portfolio Management and Algorithmic Trading, along with advice from friends and trusted internet sources, I've embarked on this prospectively profitable project. My strategies are currently simple and conventional. As I become more comfortable with Python and learn/think about different sources of alpha, I aim to implement fresh strategies.
 
-I've self-taught myself Python, so any suggestions about code would be greatly appreciated! Strategy advice always welcome, of course.
+All my Python is self-taught, so any suggestions about code would be greatly appreciated! Strategy advice always welcome, of course.
 
 ## My Journey Log:
 #### beginning 08/24/22
