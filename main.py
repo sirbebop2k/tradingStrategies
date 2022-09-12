@@ -7,16 +7,15 @@ import stratBollinger
 import infrastructure as inf
 
 
+key1=''
+secret1=''
 
-#bot1 = strats.Bot(key='S9Y05pXGGbVG3z3q9LNAGLTjfF2K3b9gZnwZ7YF6Exw9xN1pzU4x/XLK',secret='glVRPbr9SrcIWkZRysnd81uM17JaFlwJZ/EE1Hr2qAkDYcaJTjcy5x08O8yt1WnMvZFH4CfniLxpSFregfASJQ==')
-# bot2 = macd.MACD()
-#
-# schedule.every().day.at("00:00").do(bot1.executeMACD, coin='ETC', interval=1440, fast=4, slow=18, third=3)
-# schedule.every().day.at("00:00").do(bot1.executeMACD, coin='ETC', interval=1440, fast=12, slow=26, third=9)
-#
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+key2=''
+secret2=''
 
-#print(stratMACD.rankCoins(1440, 3, 12, 3, index=124, trade_fee=.001))
-print(inf.getHoldings())
+
+bot1 = strats.Bot(key=key1, secret=secret1)
+bot2 = strats.Bot(key=key2, secret=secret2)
+
+bot1.executeMACD('ETC', 1440, 4, 18, 3)
+bot2.executeMACD('ETC', 1440, 12, 26, 9)

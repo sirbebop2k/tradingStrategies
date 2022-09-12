@@ -247,12 +247,10 @@ def rankCoins(interval, fast, slow, third, index=None, trade_fee=0, quantile=.1,
             returns = backtestMACD(data, starting=100, trade_fee=trade_fee, frac_traded=1, quantile=quantile)
         else:
             returns = backtestLongMACD(data, starting=100, trade_fee=trade_fee, frac_traded=1, quantile=quantile)
-        print(title)
         final = float(returns.iloc[-1, 2])
         dct[title] = final
         title = ''
 
-
     df = pd.DataFrame.from_dict(dct, orient='index', columns=['final'])
     df.sort_values(by=['final'], ascending=False, inplace=True)
-    print(df)
+    return df

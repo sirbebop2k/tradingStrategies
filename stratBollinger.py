@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # notice that crossovers usually indicate a correction incoming, so we negate our signal #
 def getBollinger(pair, interval, window, factor=1, mode='sma'):
     df = pd.DataFrame(columns=['close', 'mean', 'upper', 'lower', 'cross'])
-    data = inf.getClose(pair=pair, interval=interval)
+    data = inf.getClose(pair=pair, interval=interval).iloc[50:]
     if mode == 'sma':
         mean = inf.getListSMA(data=data, window=window)
         vol = inf.getListVol(data=data, window=window)
@@ -70,6 +70,7 @@ def backtestBollinger(data, starting=100, trade_fees=.0026, frac=1):
             cash -= holding_num * close * (1 + trade_fee)
 
 # looking at the Bollinger plots, it seems that this strategy won't generate too much. might as well work to implement it, though #
+# i've realized that bollinger alone isn't enough of a signal. in combination with macd, though...
 
 
 

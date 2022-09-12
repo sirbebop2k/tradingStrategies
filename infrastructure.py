@@ -92,6 +92,7 @@ def getOHLC(pair, interval=1, timestamp=0, key=key1, secret=secret1):
                       columns=['time', 'open', 'high', 'low', 'close', 'vwap', 'volume', 'count'])
     df['time'] = df['time'].apply(lambda x: datetime.fromtimestamp(x))
     df.set_index('time', inplace=True)
+    df = df.astype('float')
 
     return df
 
@@ -147,19 +148,28 @@ def getTime(key=key1, secret=secret1):
 
 # for backtesting #
 
+def getHoldReturns(pair, interval, start=None, end=None):
+    data = getClose(pair, interval)
+    df = pd.DataFrame()
+    df['close'] = data
+    df['% change'] = df['close'].pct_change()
 
-def getSharpe(returns, periods):
+    return df
+
+
+
+def getSharpe(returns, periods, rfr=.02989):
 
     result = returns['% change'].iloc[2:] + 1
     result = result.resample(periods).prod() - 1
 
     if periods == '1D':
-        mean = result.mean() * 12 - .02989
-        vol = result.std() * (12 ** 0.5)
+        mean = result.mean() * 365 - rfr
+        vol = result.std() * (365 ** 0.5)
 
     elif periods == '1M':
-        mean = result.mean() * 365 - .02989
-        vol = result.std() * (365 ** 0.5)
+        mean = result.mean() * 12 - rfr
+        vol = result.std() * (12 ** 0.5)
 
     sharpe = mean / vol
 
@@ -171,9 +181,7 @@ def getSharpe(returns, periods):
     return df
 
 
-##
-
-
+# all EMAs to have \alpha = 2/(N+1) #
 def getEMA(data, window):
     calcs = data.ewm(span=window).mean()
     ema = calcs.iloc[-1, 0]
