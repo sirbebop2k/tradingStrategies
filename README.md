@@ -1,9 +1,10 @@
-# tradingStrategy
+# tradingStrategies
 
 Welcome!
 
 
 ## My Journey Log:
+#### beginning 08/24/22
 - first decided to simple MACD long/short strategy, as outlined above, on Kraken exchange
 - my hypothesis: crypto returns, especially those that are predominantly traded by retail, folow momentum patterns; the trick is to find the right windows
 - wrote infrastructure (connecting to Kraken API, sending orders, etc.)
