@@ -21,9 +21,9 @@ All my Python is self-taught, so any suggestions about code would be greatly app
   - This implies a greater risk of overfitting
   - ETC (Ethereum Classic), however, displayed robust returns in a variety of parameters -- it's the way to go
 - Pondered switching exchanges; however, none offered balance of available coins vs. fees that kraken did, and gas fees on DEXs made low-volume trading especially difficult
-- Found out I misread the Kraken margin trading requirements -- the sec doesn't play around
+- Found out I misread the Kraken margin trading requirements -- the SEC really doesn't play around
   - Had to change my MACD strategy to long only positions, which made it not so market-neutral anymore
-  - Luckily, backtested returns didn't take too big a hit
+  - Luckily, backtested returns didn't take too big a hit. Most positive PnLs came from long positions, it historically seems.
 - Explored options for hosting my strategy on. Raspberry Pis are all still sold out :( hey, college students get discounts on Microsoft Azure though!
 - After much head-bashing, I've decided to leave Azure for real devs, and am now hosting on pythonanywhere.com
 - Kraken seems to take awhile processing bank transfers; may switch to FTX if necessary
