@@ -2,6 +2,9 @@
 
 Welcome!
 
+With the help of skills picked up in FINMATH 25000: Quantitative Portfolio Management and Algorithmic Trading, along with advice from friends and trusted internet sources, I've embarked on this hopefully profitable project. My strategies are currently simple and conventional. As I become more comfortable with Python and learn/think about different sources of alpha, I aim to implement fresh strategies.
+
+I've self-taught myself Python, so any suggestions about code would be greatly appreciated! Strategy advice always welcome, of course.
 
 ## My Journey Log:
 #### beginning 08/24/22
@@ -22,7 +25,9 @@ Welcome!
   - had to change my MACD strategy to long only positions, which made it not so market-neutral anymore
   - luckily, backtested returns didn't take too big a hit
 - explored options for hosting my strategy on. raspberry pis are all still sold out :( hey, college students get discounts on microsoft azure though!
+- after much head-bashing, I've decided to leave azure for real devs, and am now hosting on pythonanywhere.com
+- kraken seems to take awhile processing bank transfers; may switch to FTX if necessary
 
 ## To do goals:
-- may have to switch from REST to WebSockets to get more continuous data
+- perhaps switch from REST to WebSockets to get more continuous data
 - develop Bollinger strategy, and perhaps integrate with the exisitng MACD one
