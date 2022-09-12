@@ -7,11 +7,13 @@ import stratBollinger
 import infrastructure as inf
 
 
-key1=''
-secret1=''
+# rigged to run every day at 00:00:01 UTC #
 
-key2=''
-secret2=''
+key1='insert_key1'
+secret1='insert_secret1'
+
+key2='insert_key2'
+secret2='insert_secret2'
 
 
 bot1 = strats.Bot(key=key1, secret=secret1)

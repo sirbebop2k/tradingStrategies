@@ -11,12 +11,15 @@ import requests
 
 api_url = 'https://api.kraken.com'
 
-with open('kraken_api_key1.txt', 'r') as r:
+# this so that one doesn't have to retype key and secret every time to access API #
+# replace 'kraken_api_key1.txt' with your own default API key and secret, of course #
+# if no API pair, may set key1='', secret1='' to access public endpoints #
+with open('kraken_ap_key1.txt', 'r') as r:
     lines = r.read().splitlines()
     key1 = lines[0]
     secret1 = lines[1]
 
-
+# credit to https://www.youtube.com/watch?v=XjVesu_G5yQ&t=1681s for API authentication methods #
 def get_kraken_signature(urlpath, data, secretkey):
     postdata = urllib.parse.urlencode(data)
     encoded = (str(data['nonce']) + postdata).encode()
@@ -26,14 +29,11 @@ def get_kraken_signature(urlpath, data, secretkey):
     return sigdigest.decode()
 
 
-# more copy paste until we figure this out #
 def kraken_response(urlpath, data, api_key, api_pass):
     headers = {"API-Key": api_key, "API-Sign": get_kraken_signature(urlpath, data, api_pass)}
     resp = requests.post(api_url + urlpath, headers=headers, data=data)
     return resp
 
-
-# methods to tidy up our outputs lol #
 
 def getHoldings(coin=None, key=key1, secret=secret1):
     thing = kraken_response('/0/private/Balance', {'nonce': str(int(time.time() * 1000))}, key, secret).json()
@@ -164,17 +164,17 @@ def getSharpe(returns, periods, rfr=.02989):
     result = result.resample(periods).prod() - 1
 
     if periods == '1D':
-        mean = result.mean() * 365 - rfr
+        mean_excess = result.mean() * 365 - rfr
         vol = result.std() * (365 ** 0.5)
 
     elif periods == '1M':
-        mean = result.mean() * 12 - rfr
+        mean_excess = result.mean() * 12 - rfr
         vol = result.std() * (12 ** 0.5)
 
-    sharpe = mean / vol
+    sharpe = mean_excess / vol
 
     df = pd.DataFrame(columns=['Mean', 'Vol', 'Sharpe'], index=['Strat'])
-    df['Mean'] = mean
+    df['Mean'] = mean_excess
     df['Vol'] = vol
     df['Sharpe'] = sharpe
 

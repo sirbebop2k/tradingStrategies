@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 
 
 # ema returns ema, sma returns sma. in the future, we may replace ema with GARCH(1.1) #
-# want to return df with close, mean, and upper/lower lines #
-# notice that crossovers usually indicate a correction incoming, so we negate our signal #
 def getBollinger(pair, interval, window, factor=1, mode='sma'):
     df = pd.DataFrame(columns=['close', 'mean', 'upper', 'lower', 'cross'])
     data = inf.getClose(pair=pair, interval=interval).iloc[50:]
@@ -40,8 +38,8 @@ def getBollinger(pair, interval, window, factor=1, mode='sma'):
 
 # purely bollinger strategy #
 # two philosophies with this:
-# buy when price bottoms out after crossing bottom band
-# buy right when price crosses top band
+# buy when price bottoms out after crossing bottom band, with expectation of rebound
+# buy right when price crosses top band, with expectation of continued momentum
 # these seem to be at odds with each other, but let's try them individually and together!
 def backtestBollinger(data, starting=100, trade_fees=.0026, frac=1):
     cash = starting

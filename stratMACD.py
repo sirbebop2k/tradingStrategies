@@ -4,9 +4,9 @@ import numpy as np
 from collections import deque
 import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
-import time # so that rankCoins won't be hindered by API rate limits #
 
 
+# calculates MACD data from closes pulled from API #
 def getMACDData(pair, interval, fast, slow, third, csv=None, start=None, end=None):
     if csv:
         close = pd.DataFrame(csv['close']).loc[start:end]
@@ -27,15 +27,15 @@ def getMACDData(pair, interval, fast, slow, third, csv=None, start=None, end=Non
     return df
 
 
-# add additional momentum factor to MACD #
-# idea: have deque of past ~200 (delta)Histograms, and after peak, if the current (delta)Histogram is significant enough
-# in the right direction, reissue a buy/sell order
-# implement: scale order size based on magnitude of MACD swing, and continue buy/sell order as MACD swing continues #
+# idea: issue long signal when MACD line crosses above 0, maintain until MACD stops increasing # issue short signal
+# when MACD line crosses above 0, maintain until MACD stops decreasing # after exiting position, re-enter if MACD
+# increases/decreases by a magnitude within the {quantile} quantile of directional MACD swings #
+
 def backtestMACD(data, starting=100, frac_traded=1, trade_fee=0, margin_fee=0, quantile=.1):
     frac = frac_traded
     cash = starting
-    pos_del = deque()
-    neg_del = deque()
+    pos_del = deque() # list of past 100 positive MACD swings
+    neg_del = deque() # list of past 100 negative MACD swings
     holding_num = 0
     short_day = True
     indicator = 0
@@ -133,7 +133,7 @@ def backtestMACD(data, starting=100, frac_traded=1, trade_fee=0, margin_fee=0, q
 
     return df
 
-
+# turns out, no shorting! this is the above strategy, except long only #
 def backtestLongMACD(data, starting=100, frac_traded=1, trade_fee=0, quantile=.1):
     frac = frac_traded
     cash = starting
@@ -208,16 +208,22 @@ def plotMACD(input, start=None, end=None):
     ax1.grid(which='minor')
     ax2.grid(which='major')
     ax2.grid(which='minor')
+    fig.autofmt_xdate(rotation=45)
     fig.show()
 
 
+# ranking coins based off of performance in indicated MACD configuration, over the past {index} periods #
+# margin=True if able to take short positions #
 def rankCoins(interval, fast, slow, third, index=None, trade_fee=0, quantile=.1, margin=False):
+
+    # Kraken has a different list of margin-tradeable coins than regularly tradeable #
     margin_list = ['AAVE', 'ALGO', 'APE', 'AVAX', 'AXS', 'BAT', 'BTC', 'BCH',
                    'ADA', 'LINK', 'ATOM', 'CRV', 'DASH', 'DAI', 'MANA', 'DOGE',
                    'EOS', 'ETH', 'ETC', 'FIL', 'KAVA', 'KEEP', 'KSM', 'LTC',
                    'LRC', 'XMR', 'NANO', 'OMG', 'PAXG', 'DOT', 'MATIC', 'XRP',
                    'SOL', 'SC', 'XLM', 'GRT', 'SAND', 'XTZ', 'TRX', 'UNI', 'WAVES', 'ZEC']
 
+    # this is still an abridged list, the coins outside these are veryyy fringe #
     full_list = ['ZRX', '1INCH', 'AAVE', 'GHST', 'ALGO', 'ANKR', 'ANT', 'REP', 'AXS',
                  'BADGER', 'BNT', 'BAL', 'BAND', 'BAT', 'BNC', 'BTC', 'BCH', 'ADA',
                  'CTSI', 'LINK', 'CHZ', 'COMP', 'ATOM', 'CQT', 'CRV', 'DAI', 'DASH',
