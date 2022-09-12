@@ -6,6 +6,9 @@ With the help of skills picked up in FINMATH 25000: Quantitative Portfolio Manag
 
 All my Python is self-taught, so any suggestions about code would be greatly appreciated! Strategy advice always welcome, of course.
 
+## Table of Contents:
+* testing.ipynb: Jupyter Notebook detailing concise Sharpe comparisons 
+
 ## My Journey Log:
 #### beginning 08/24/22
 - First decided to simple MACD long/short strategy, as outlined above, on Kraken exchange
@@ -32,5 +35,6 @@ All my Python is self-taught, so any suggestions about code would be greatly app
 
 ## To do goals:
 - Enact measures to deal with order not being filled (though extremely unlikely)
-- Perhaps switch from REST to WebSockets to get more continuous data
 - Develop Bollinger strategy, and perhaps integrate with the exisitng MACD one
+-  Strengthen MACD strategy by scaling our positions with stength of MACD swing (on top of existing measure)
+- Perhaps switch from REST to WebSockets to get more continuous data
