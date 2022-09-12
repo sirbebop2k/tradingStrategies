@@ -21,6 +21,8 @@ All my Python is self-taught, so any suggestions about code would be greatly app
   - This implies a greater risk of overfitting
   - ETC (Ethereum Classic), however, displayed robust returns in a variety of parameters -- it's the way to go
 - Pondered switching exchanges; however, none offered balance of available coins vs. fees that kraken did, and gas fees on DEXs made low-volume trading especially difficult
+  - To avoid large taker fees, will solely submit post only limit orders.
+  - This strategy doesn't rely on speed; as long as the order executes at our desired price we should be golden
 - Found out I misread the Kraken margin trading requirements -- the SEC really doesn't play around
   - Had to change my MACD strategy to long only positions, which made it not so market-neutral anymore
   - Luckily, backtested returns didn't take too big a hit. Most positive PnLs came from long positions, it historically seems.
@@ -29,5 +31,6 @@ All my Python is self-taught, so any suggestions about code would be greatly app
 - Kraken seems to take awhile processing bank transfers; may switch to FTX if necessary
 
 ## To do goals:
+- Enact measures to deal with order not being filled (though extremely unlikely)
 - perhaps switch from REST to WebSockets to get more continuous data
 - develop Bollinger strategy, and perhaps integrate with the exisitng MACD one
