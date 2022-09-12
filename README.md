@@ -32,5 +32,5 @@ All my Python is self-taught, so any suggestions about code would be greatly app
 
 ## To do goals:
 - Enact measures to deal with order not being filled (though extremely unlikely)
-- perhaps switch from REST to WebSockets to get more continuous data
-- develop Bollinger strategy, and perhaps integrate with the exisitng MACD one
+- Perhaps switch from REST to WebSockets to get more continuous data
+- Develop Bollinger strategy, and perhaps integrate with the exisitng MACD one
