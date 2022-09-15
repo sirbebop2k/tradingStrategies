@@ -8,6 +8,7 @@ import base64
 import pandas as pd
 from datetime import datetime
 import requests
+import matplotlib.pyplot as plt
 
 api_url = 'https://api.kraken.com'
 
@@ -179,6 +180,17 @@ def getSharpe(returns, periods, rfr=.02989):
     df['Sharpe'] = sharpe
 
     return df
+
+
+def plotHistogram(returns, periods):
+
+    result = returns['% change'].iloc[2:] + 1
+    result = result.resample(periods).prod() - 1
+
+    n, bins, patches = plt.hist(result)
+
+    plt.grid(True)
+    plt.show()
 
 
 # all EMAs to have \alpha = 2/(N+1) #

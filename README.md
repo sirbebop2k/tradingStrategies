@@ -36,7 +36,7 @@ All my Python is self-taught, so any suggestions about code would be greatly app
   - Luckily, backtested returns didn't take too big a hit. Most positive PnLs came from long positions, it historically seems.
 - Explored options for hosting my strategy on. Raspberry Pis are all still sold out :( hey, college students get discounts on Microsoft Azure though!
 - After much head-bashing, I've decided to leave Azure for real devs, and am now hosting on pythonanywhere.com
-- Kraken seems to take awhile processing bank transfers; may switch to FTX if necessary
+- Kraken seems to take a while processing bank transfers; may switch to FTX if necessary
 
 ## To do goals:
 - Enact measures to deal with order not being filled (though extremely unlikely)
