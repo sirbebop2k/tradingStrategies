@@ -190,6 +190,7 @@ def plotHistogram(returns, periods):
     n, bins, patches = plt.hist(result)
 
     plt.grid(True)
+    plt.figure(figsize=(.5, .5))
     plt.show()
 
 
