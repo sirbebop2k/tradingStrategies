@@ -139,6 +139,21 @@ def placeLimitOrder(key, secret, pair, direction, volume, price, oflags=None, va
 
     return thing
 
+def placeMarketOrder(key, secret, pair, direction, volume, validate=False):
+    conditions = {'nonce': str(int(time.time() * 1000)),
+                  'pair': pair,
+                  'ordertype': 'market',
+                  'type': direction,
+                  'volume': volume,
+                  'validate': validate}
+
+    thing = kraken_response('/0/private/AddOrder',
+                            conditions, key, secret).json()
+    if thing['error'] == ['EAPI:Invalid key']:
+        raise Exception('Key and/or Secret Invalid')
+
+    return thing
+
 
 def getTime(key=def_key, secret=def_secret):
     thing = kraken_response('/0/public/Time', {'nonce': str(int(time.time() * 1000))}, key, secret).json()
