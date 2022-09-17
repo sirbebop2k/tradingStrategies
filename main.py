@@ -1,11 +1,4 @@
-import pandas as pd
-import schedule
-import time
 import executeStrats as strats
-import stratMACD
-import stratBollinger
-import infrastructure as inf
-
 
 # rigged to run every day at 00:00:01 UTC #
 
