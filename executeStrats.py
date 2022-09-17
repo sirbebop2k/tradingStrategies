@@ -19,13 +19,14 @@ class Bot:
         self.key = key
         self.secret = secret
 
-    # let's do (4,16,3) on ETCUSD 1440 #
+    # specific conditions: rounding prices to 3 decimal places for ETC #
+    # 'X' appended to front of coin #
     def executeMACD(self, coin, interval, fast, slow, third, quant=.1, frac=.99, test=False):
 
         pair = coin + 'USD'
         pos_del = deque()
         usd_balance = inf.getUSDBalance(key=self.key, secret=self.secret)
-        coin_balance = inf.getHoldings(coin=coin, key=self.key, secret=self.secret)
+        coin_balance = inf.getHoldings(coin='X'+ coin, key=self.key, secret=self.secret)
 
         t = time.strftime("%m/%d/%y - %H:%M:%S", time.localtime())
 
@@ -45,20 +46,20 @@ class Bot:
         # should implement measures just in case our post order gets cancelled, or never filled by the end #
         # .99 factor to account for fees #
         if this > 0 and last < 0 and coin_balance == 0:
-            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=bid-.001,
+            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=round(bid-.001, 3),
                                 oflags='post', validate=test, key=self.key, secret=self.secret)
 
         elif (this < last) and (coin_balance > 0):
-            inf.placeLimitOrder(pair=pair, direction='sell', volume=coin_balance, price=ask+.001,
+            inf.placeLimitOrder(pair=pair, direction='sell', volume=coin_balance, price=round(ask+.001, 3),
                                 oflags='post', validate=test, key=self.key, secret=self.secret)
 
         elif this > 0 and (coin_balance == 0) and (this - last > quantile(pos_del, 1 - quant)):
-            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=bid-.001,
+            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=round(bid-.001, 3),
                                 oflags='post', validate=test, key=self.key, secret=self.secret)
 
         df = pd.DataFrame({'position': coin_balance * close,
                            'balance': usd_balance,
-                           'total': coin_balance + close * usd_balance},
+                           'total': coin_balance * close + usd_balance},
                           index=[t])
 
         print(df)
