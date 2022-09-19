@@ -46,16 +46,16 @@ class Bot:
         # should implement measures just in case our post order gets cancelled, or never filled by the end #
         # .99 factor to account for fees #
         if this > 0 and last < 0 and coin_balance == 0:
-            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=round(bid-.001, 3),
-                                oflags='post', validate=test, key=self.key, secret=self.secret)
+            print(inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=round(bid-.001, 3),
+                                oflags='post', validate=test, key=self.key, secret=self.secret))
 
         elif (this < last) and (coin_balance > 0):
-            inf.placeLimitOrder(pair=pair, direction='sell', volume=coin_balance, price=round(ask+.001, 3),
-                                oflags='post', validate=test, key=self.key, secret=self.secret)
+            print(inf.placeLimitOrder(pair=pair, direction='sell', volume=coin_balance, price=round(ask+.001, 3),
+                                oflags='post', validate=test, key=self.key, secret=self.secret))
 
         elif this > 0 and (coin_balance == 0) and (this - last > quantile(pos_del, 1 - quant)):
-            inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=round(bid-.001, 3),
-                                oflags='post', validate=test, key=self.key, secret=self.secret)
+            print(inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=round(bid-.001, 3),
+                                oflags='post', validate=test, key=self.key, secret=self.secret))
 
         df = pd.DataFrame({'position': coin_balance * close,
                            'balance': usd_balance,
