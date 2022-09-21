@@ -41,7 +41,9 @@ def getBollinger(pair, interval, window, factor=1, mode='sma'):
 # buy when price bottoms out after crossing bottom band, with expectation of rebound
 # buy right when price crosses top band, with expectation of continued momentum
 # these seem to be at odds with each other, but let's try them individually and together!
-def backtestBollinger(data, starting=100, trade_fees=.0026, frac=1):
+
+# this is rebound strategy, objectively not too good
+def backtestBollinger(data, starting=100, trade_fee=.001, frac=1, mode='sma'):
     cash = starting
     frac = frac
     holding_num = 0
@@ -60,15 +62,61 @@ def backtestBollinger(data, starting=100, trade_fees=.0026, frac=1):
         close = data.iloc[i,0]
         close_last = data.iloc[i-1,0]
 
-        if cross == -1 and cross_last == 0:
+        if indicator == 0 and cross == -1 and cross_last == 0:
             indicator = 1
-        if indicator == 1 and close>close_last:
             num_trades += 1
             holding_num += cash * frac / close
             cash -= holding_num * close * (1 + trade_fee)
+        elif indicator == 1 and cross != -1 and close<close_last:
+            indicator = 0
+            num_trades += 1
+            cash += holding_num * close * (1 - trade_fee)
+            holding_num = 0
+
+
+        df.iloc[i, 0] = num_trades
+        df.iloc[i, 1] = holding_num * close
+        df.iloc[i, 2] = cash
+        df.iloc[i, 3] = df.iloc[i, 1] + df.iloc[i, 2]
+
+    df['% change'] = df['total'].pct_change()
+
+    return df
 
 # looking at the Bollinger plots, it seems that this strategy won't generate too much. might as well work to implement it, though #
 # i've realized that bollinger alone isn't enough of a signal. in combination with macd, though...
+
+def rankCoins(interval, window, factor=1, starting=100, trade_fee=.001, frac=1, mode='sma', index=None):
+
+    # this is still an abridged list of all tradeable coins, the coins outside these are veryyy fringe #
+    coins = ['ZRX', '1INCH', 'AAVE', 'GHST', 'ALGO', 'ANKR', 'ANT', 'REP', 'AXS',
+                 'BADGER', 'BNT', 'BAL', 'BAND', 'BAT', 'BNC', 'BTC', 'BCH', 'ADA',
+                 'CTSI', 'LINK', 'CHZ', 'COMP', 'ATOM', 'CQT', 'CRV', 'DAI', 'DASH',
+                 'MANA', 'DOGE', 'EWT', 'ENJ', 'MLN', 'EOS', 'ETH', 'ETC', 'FIL', 'FLOW',
+                 'GNO', 'ICX', 'KAR', 'KAVA', 'KEEP', 'KSM', 'KNC', 'LSK', 'LTC',
+                 'LPT', 'LRC', 'MKR', 'MINA', 'XMR', 'MOVR', 'NANO', 'OCEAN', 'OMG',
+                 'OXT', 'OGN', 'PAXG', 'PERP', 'PHA', 'DOT', 'MATIC', 'QTUM', 'QNT',
+                 'RARI', 'RAY', 'REN', 'XRP', 'SRM', 'SHIB', 'SDN', 'SC', 'SOL', 'XLM',
+                 'STORJ', 'SUSHI', 'SNX', 'TBTC', 'USDT', 'XTZ', 'GRT', 'SAND', 'TRX',
+                 'UNI', 'WAVES', 'WBTC', 'YFI', 'ZEC']
+
+    dct = dict()
+
+    for item in coins:
+        title = item + 'USD'
+        if index:
+            data = (getBollinger(title, interval=interval, window=window, factor=factor, mode=mode)).iloc[-index:]
+        else:
+            data = getBollinger(title, interval=interval, window=window, factor=factor, mode=mode)
+
+        returns = backtestBollinger(data, starting=100, trade_fee=trade_fee, frac=frac, mode=mode)
+        final = float(returns.iloc[-1, 2])
+        dct[title] = final
+        title = ''
+
+    df = pd.DataFrame.from_dict(dct, orient='index', columns=['final'])
+    df.sort_values(by=['final'], ascending=False, inplace=True)
+    return df
 
 
 
