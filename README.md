@@ -37,6 +37,7 @@ All my Python is self-taught, so any suggestions about code would be greatly app
 - Explored options for hosting my strategy on. Raspberry Pis are all still sold out :( hey, college students get discounts on Microsoft Azure though!
 - After much head-bashing, I've decided to leave Azure for real devs, and am now hosting on pythonanywhere.com
 - Kraken seems to take a while processing bank transfers; may switch to FTX if necessary
+- MACD strategy implemented! Chugging along, not much action so far, as expected.
 
 ## To do goals:
 - Enact measures to deal with order not being filled (though extremely unlikely)
