@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # ema returns ema, sma returns sma. in the future, we may replace ema with GARCH(1.1) #
 def getBollinger(pair, interval, window, factor=1, mode='sma'):
     df = pd.DataFrame(columns=['close', 'mean', 'upper', 'lower', 'cross'])
-    data = inf.getClose(pair=pair, interval=interval).iloc[50:]
+    data = inf.getClose(pair=pair, interval=interval)
     if mode == 'sma':
         mean = inf.getListSMA(data=data, window=window)
         vol = inf.getListVol(data=data, window=window)
@@ -22,7 +22,7 @@ def getBollinger(pair, interval, window, factor=1, mode='sma'):
     df['upper'] = upper
     df['lower'] = lower
 
-    df = df.iloc[100:]
+    df = df.iloc[50:]
     df = df.astype('float')
 
     for i in range(len(df.index)):
