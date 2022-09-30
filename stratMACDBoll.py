@@ -70,3 +70,33 @@ def backtestBollMACD(pair, interval, fast, slow, third, window, index=None, star
         df.iloc[i, 3] = df.iloc[i, 1] + df.iloc[i, 2]
     df['% change'] = df['total'].pct_change()
     return df
+
+def rankCoins(interval, fast, slow, third, window, index=None, starting=100,
+                     frac_traded=1, factor=.5, trade_fee=0, quantile=.1, mode='sma'):
+
+    # this is still an abridged list, the coins outside these are veryyy fringe #
+    coins = ['ZRX', '1INCH', 'AAVE', 'GHST', 'ALGO', 'ANKR', 'ANT', 'REP', 'AXS',
+                 'BADGER', 'BNT', 'BAL', 'BAND', 'BAT', 'BNC', 'BTC', 'BCH', 'ADA',
+                 'CTSI', 'LINK', 'CHZ', 'COMP', 'ATOM', 'CQT', 'CRV', 'DAI', 'DASH',
+                 'MANA', 'DOGE', 'EWT', 'ENJ', 'MLN', 'EOS', 'ETH', 'ETC', 'FIL', 'FLOW',
+                 'GNO', 'ICX', 'KAR', 'KAVA', 'KEEP', 'KSM', 'KNC', 'LSK', 'LTC',
+                 'LPT', 'LRC', 'MKR', 'MINA', 'XMR', 'MOVR', 'NANO', 'OCEAN', 'OMG',
+                 'OXT', 'OGN', 'PAXG', 'PERP', 'PHA', 'DOT', 'MATIC', 'QTUM', 'QNT',
+                 'RARI', 'RAY', 'REN', 'XRP', 'SRM', 'SHIB', 'SDN', 'SC', 'SOL', 'XLM',
+                 'STORJ', 'SUSHI', 'SNX', 'TBTC', 'USDT', 'XTZ', 'GRT', 'SAND', 'TRX',
+                 'UNI', 'WAVES', 'WBTC', 'YFI', 'ZEC']
+
+    dct = dict()
+
+    for item in coins:
+        title = item + 'USD'
+
+        returns = backtestBollMACD(title, interval, fast, slow, third, window, index,
+                                   starting, frac_traded, factor, trade_fee, quantile, mode)
+        final = float(returns.iloc[-1, 2])
+        dct[title] = final
+        title = ''
+
+    df = pd.DataFrame.from_dict(dct, orient='index', columns=['final'])
+    df.sort_values(by=['final'], ascending=False, inplace=True)
+    return df
