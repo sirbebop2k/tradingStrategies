@@ -62,7 +62,10 @@ class Bot:
                            'total': coin_balance * close + usd_balance},
                           index=[t])
 
+        tl_dict = {'this MACD': round(this,4), 'last MACD': round(last,4)}
+
         print(df)
+        print(tl_dict)
 
     def test(self, coin):
         pair = coin + 'USD'
