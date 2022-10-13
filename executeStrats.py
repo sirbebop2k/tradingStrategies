@@ -26,7 +26,7 @@ class Bot:
         pair = coin + 'USD'
         pos_del = deque()
         usd_balance = inf.getUSDBalance(key=self.key, secret=self.secret)
-        coin_balance = inf.getHoldings(coin='X'+ coin, key=self.key, secret=self.secret)
+        coin_balance = inf.getHoldings(coin='X' + coin, key=self.key, secret=self.secret)
 
         t = time.strftime("%m/%d/%y - %H:%M:%S", time.localtime())
 
@@ -46,23 +46,25 @@ class Bot:
         # should implement measures just in case our post order gets cancelled, or never filled by the end #
         # .99 factor to account for fees #
         if this > 0 and last < 0 and coin_balance == 0:
-            print(inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=round(bid-.001, 3),
-                                oflags='post', validate=test, key=self.key, secret=self.secret))
+            print(inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid) * frac,
+                                      price=round(bid - .001, 3),
+                                      oflags='post', validate=test, key=self.key, secret=self.secret))
 
         elif (this < last) and (coin_balance > 0):
-            print(inf.placeLimitOrder(pair=pair, direction='sell', volume=coin_balance, price=round(ask+.001, 3),
-                                oflags='post', validate=test, key=self.key, secret=self.secret))
+            print(inf.placeLimitOrder(pair=pair, direction='sell', volume=coin_balance, price=round(ask + .001, 3),
+                                      oflags='post', validate=test, key=self.key, secret=self.secret))
 
         elif this > 0 and (coin_balance == 0) and (this - last > quantile(pos_del, 1 - quant)):
-            print(inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid)*frac, price=round(bid-.001, 3),
-                                oflags='post', validate=test, key=self.key, secret=self.secret))
+            print(inf.placeLimitOrder(pair=pair, direction='buy', volume=(usd_balance / bid) * frac,
+                                      price=round(bid - .001, 3),
+                                      oflags='post', validate=test, key=self.key, secret=self.secret))
 
         df = pd.DataFrame({'position': coin_balance * close,
                            'balance': usd_balance,
                            'total': coin_balance * close + usd_balance},
                           index=[t])
 
-        tl_dict = {'this MACD': round(this,4), 'last MACD': round(last,4)}
+        tl_dict = {'this MACD': round(this, 4), 'last MACD': round(last, 4), 'price': close}
 
         print(df)
         print(tl_dict)
