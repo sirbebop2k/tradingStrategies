@@ -69,6 +69,8 @@ class Bot:
         print(df)
         print(tl_dict)
 
+        # NOT WORKING AS INTENDED, PLS FIX #
+
     def test(self, coin):
         pair = coin + 'USD'
 
