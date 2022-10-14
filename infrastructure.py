@@ -232,6 +232,8 @@ def getListEMA(data, window):
 
     return calcs
 
+# FIX #
+
 
 def getListSMA(data, window):
     calcs = data.rolling(window=window).mean()
