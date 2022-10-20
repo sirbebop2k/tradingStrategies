@@ -70,18 +70,18 @@ class Bot:
         print(tl_dict)
 
         # NOT WORKING AS INTENDED, PLS FIX #
-        def testExecuteMACD(self, coin, interval, fast, slow, third):
-            pair = coin + 'USD'
+    def testExecuteMACD(self, coin, interval, fast, slow, third):
+        pair = coin + 'USD'
 
-            data = getMACDData(pair, interval=interval, fast=fast, slow=slow, third=third).iloc[150:]
-            close = float(data.iloc[-1, 1])
-            this = float(data.iloc[-1, 0])  # histogram this period #
-            last = float(data.iloc[- 2, 0])  # histogram last period #
+        data = getMACDData(pair, interval=interval, fast=fast, slow=slow, third=third).iloc[150:]
+        close = float(data.iloc[-1, 1])
+        this = float(data.iloc[-1, 0])  # histogram this period #
+        last = float(data.iloc[- 2, 0])  # histogram last period #
 
-            tl_dict = {'this MACD': round(this, 4), 'last MACD': round(last, 4), 'price': close}
+        tl_dict = {'this MACD': round(this, 4), 'last MACD': round(last, 4), 'price': close}
 
-            print(data)
-            print(tl_dict)
+        print(data)
+        print(tl_dict)
 
     def test(self, coin):
         pair = coin + 'USD'
