@@ -28,8 +28,6 @@ class Bot:
         usd_balance = inf.getUSDBalance(key=self.key, secret=self.secret)
         coin_balance = inf.getHoldings(coin='X' + coin, key=self.key, secret=self.secret)
 
-        t = time.strftime("%m/%d/%y - %H:%M:%S", time.localtime())
-
         data = getMACDData(pair, interval=interval, fast=fast, slow=slow, third=third).iloc[150:]
         close = float(data.iloc[-1, 1])
         this = float(data.iloc[-1, 0])  # histogram this period #
@@ -59,6 +57,8 @@ class Bot:
                                       price=round(bid - .001, 3),
                                       oflags='post', validate=test, key=self.key, secret=self.secret))
 
+        t = time.strftime("%m/%d/%y - %H:%M:%S", time.localtime())
+
         df = pd.DataFrame({'position': coin_balance * close,
                            'balance': usd_balance,
                            'total': coin_balance * close + usd_balance},
@@ -70,6 +70,18 @@ class Bot:
         print(tl_dict)
 
         # NOT WORKING AS INTENDED, PLS FIX #
+        def testExecuteMACD(self, coin, interval, fast, slow, third):
+            pair = coin + 'USD'
+
+            data = getMACDData(pair, interval=interval, fast=fast, slow=slow, third=third).iloc[150:]
+            close = float(data.iloc[-1, 1])
+            this = float(data.iloc[-1, 0])  # histogram this period #
+            last = float(data.iloc[- 2, 0])  # histogram last period #
+
+            tl_dict = {'this MACD': round(this, 4), 'last MACD': round(last, 4), 'price': close}
+
+            print(data)
+            print(tl_dict)
 
     def test(self, coin):
         pair = coin + 'USD'

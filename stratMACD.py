@@ -7,11 +7,25 @@ from matplotlib.ticker import AutoMinorLocator
 
 
 # calculates MACD data from closes pulled from API #
-def getMACDData(pair, interval, fast, slow, third, csv=None, start=None, end=None):
-    if csv:
-        close = pd.DataFrame(csv['close']).loc[start:end]
-    else:
-        close = inf.getClose(pair, interval=interval)
+def getMACDData(pair, interval, fast, slow, third):
+
+    close = inf.getClose(pair, interval=interval)
+
+    diff_list = (inf.getListEMA(close, window=fast) - inf.getListEMA(close, window=slow))
+    diff_ema = inf.getListEMA(diff_list, window=third)
+    close = close.iloc[50:]
+    diff_list = diff_list.iloc[50:]
+    diff_ema = diff_ema.iloc[50:]
+
+    df = pd.DataFrame(index=close.index)
+    df['histogram'] = diff_list - diff_ema
+    df['close'] = close
+    df = df.astype('float')
+
+    return df
+def getMACDData_manual(data, fast, slow, third):
+
+    close = pd.DataFrame(data['close'])
 
     diff_list = (inf.getListEMA(close, window=fast) - inf.getListEMA(close, window=slow))
     diff_ema = inf.getListEMA(diff_list, window=third)
