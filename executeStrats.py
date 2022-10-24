@@ -28,7 +28,7 @@ class Bot:
         usd_balance = inf.getUSDBalance(key=self.key, secret=self.secret)
         coin_balance = inf.getHoldings(coin='X' + coin, key=self.key, secret=self.secret)
 
-        data = getMACDData(pair, interval=interval, fast=fast, slow=slow, third=third).iloc[150:]
+        data = getMACDData(pair, interval=interval, fast=fast, slow=slow, third=third).iloc[150:-1]
         close = float(data.iloc[-1, 1])
         this = float(data.iloc[-1, 0])  # histogram this period #
         last = float(data.iloc[- 2, 0])  # histogram last period #
@@ -73,7 +73,7 @@ class Bot:
     def testExecuteMACD(self, coin, interval, fast, slow, third):
         pair = coin + 'USD'
 
-        data = getMACDData(pair, interval=interval, fast=fast, slow=slow, third=third).iloc[150:]
+        data = getMACDData(pair, interval=interval, fast=fast, slow=slow, third=third).iloc[150:-1]
         close = float(data.iloc[-1, 1])
         this = float(data.iloc[-1, 0])  # histogram this period #
         last = float(data.iloc[- 2, 0])  # histogram last period #
