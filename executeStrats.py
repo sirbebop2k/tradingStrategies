@@ -77,11 +77,16 @@ class Bot:
         close = float(data.iloc[-1, 1])
         this = float(data.iloc[-1, 0])  # histogram this period #
         last = float(data.iloc[- 2, 0])  # histogram last period #
+        bid = float((inf.getTickerInfo(pair, key=self.key, secret=self.secret)['bid'])[0])
+        ask = float((inf.getTickerInfo(pair, key=self.key, secret=self.secret)['ask'])[0])
+        last_closed = float((inf.getTickerInfo(pair, key=self.key, secret=self.secret)['last closed trade'])[0])
 
         tl_dict = {'this MACD': round(this, 4), 'last MACD': round(last, 4), 'price': close}
+        bid_ask_dict = {'bid': bid, 'ask': ask, 'last closed':last_closed}
 
         print(data)
         print(tl_dict)
+        print(bid_ask_dict)
 
     def test(self, coin):
         pair = coin + 'USD'
