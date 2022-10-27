@@ -7,6 +7,7 @@ from matplotlib.ticker import AutoMinorLocator
 
 
 # calculates MACD data from closes pulled from API #
+# not particularly efficient, want to only calculate those for which I need. will get to this #
 def getMACDData(pair, interval, fast, slow, third):
 
     close = inf.getClose(pair, interval=interval)
