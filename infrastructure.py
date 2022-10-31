@@ -20,6 +20,7 @@ with open('kraken_api_key1.txt', 'r') as r:
     def_key = lines[0]
     def_secret = lines[1]
 
+
 # credit to https://www.youtube.com/watch?v=XjVesu_G5yQ&t=1681s for API authentication methods #
 def get_kraken_signature(urlpath, data, secretkey):
     postdata = urllib.parse.urlencode(data)
@@ -34,6 +35,7 @@ def kraken_response(urlpath, data, api_key, api_pass):
     headers = {"API-Key": api_key, "API-Sign": get_kraken_signature(urlpath, data, api_pass)}
     resp = requests.post(api_url + urlpath, headers=headers, data=data)
     return resp
+
 
 # coin=None for all holdings, specify coin for float num of coin holding #
 def getHoldings(coin=None, key=def_key, secret=def_secret):
@@ -139,6 +141,7 @@ def placeLimitOrder(key, secret, pair, direction, volume, price, oflags=None, va
 
     return thing['result']
 
+
 def placeMarketOrder(key, secret, pair, direction, volume, validate=False):
     conditions = {'nonce': str(int(time.time() * 1000)),
                   'pair': pair,
@@ -153,6 +156,7 @@ def placeMarketOrder(key, secret, pair, direction, volume, validate=False):
         raise Exception('Key and/or Secret Invalid')
 
     return thing['result']
+
 
 def getOpenOrders(key=def_key, secret=def_secret):
     conditions = {'nonce': str(int(time.time() * 1000))}
@@ -174,7 +178,7 @@ def getTime(key=def_key, secret=def_secret):
 
 # for backtesting #
 
-def getHoldReturns(pair, interval, start=None, end=None):
+def getHoldReturns(pair, interval):
     data = getClose(pair, interval)
     df = pd.DataFrame()
     df['close'] = data
@@ -183,9 +187,7 @@ def getHoldReturns(pair, interval, start=None, end=None):
     return df
 
 
-
 def getSharpe(returns, periods, rfr=.02989):
-
     result = returns['% change'].iloc[2:] + 1
     result = result.resample(periods).prod() - 1
 
@@ -208,7 +210,6 @@ def getSharpe(returns, periods, rfr=.02989):
 
 
 def plotHistogram(returns, periods):
-
     result = returns['% change'].iloc[2:] + 1
     result = result.resample(periods).prod() - 1
 
@@ -232,8 +233,6 @@ def getListEMA(data, window):
 
     return calcs
 
-# FIX #
-
 
 def getListSMA(data, window):
     calcs = data.rolling(window=window).mean()
@@ -247,8 +246,6 @@ def getListVol(data, window):
     return calcs
 
 
-# hm let's see if this works #
-# if not, we may simply create a df of SMAs, and then set df... will have to use iloc, sadly #
 def getListExpVol(data, window):
     calcs = data.ewm(span=window).std()
 
