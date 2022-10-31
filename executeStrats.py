@@ -35,9 +35,10 @@ class Bot:
         bid = float((inf.getTickerInfo(pair, key=self.key, secret=self.secret)['bid'])[0])
         ask = float((inf.getTickerInfo(pair, key=self.key, secret=self.secret)['ask'])[0])
 
-        for i in range(1, len(data.index)):
-            if this - last > 0:
-                pos_del.append(this - last)
+        for i in range(len(data.index)-200, len(data.index)):
+            diff = float(data.iloc[i, 0])-float(data.iloc[i-1, 0])
+            if diff > 0:
+                pos_del.append(diff)
             if len(pos_del) > 100:
                 pos_del.popleft()
 
