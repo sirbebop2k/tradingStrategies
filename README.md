@@ -9,10 +9,10 @@ All my Python is self-taught, so any suggestions about code would be greatly app
 ## Table of Contents:
 * **executeStrats.py**: methods for implementing strategy and executing trades; object oriented to facilitate execution of multiple strategies in multiple Kraken accounts
 * **infrastructure.py**: methods for interacting with Kraken REST API, along with methods generally useful for a variety of strategies and backtesting
-* **main.py**: implementing strategy
+* **main.py**: implementation
 * **stratMACD.py**: methods useful specifically for MACD, including backtesting
 * **stratBollinger.py**: methods useful specifically for Bollinger, including backtesting; **unfinished**
-* **testing.ipynb**: Jupyter Notebook detailing concise Sharpe comparisons and visualisations
+* **testing.ipynb**: Jupyter Notebook detailing Sharpe comparisons and visualisations
 
 ## My Journey Log:
 #### beginning 08/24/22
