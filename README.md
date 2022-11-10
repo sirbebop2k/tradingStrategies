@@ -2,7 +2,7 @@
 
 Welcome!
 
-With the help of skills picked up in FINMATH 25000: Quantitative Portfolio Management and Algorithmic Trading, along with advice from friends and trusted internet sources, I've embarked on this prospectively profitable project. My strateg(y)ies are currently simple and conventional. I aim to eventually expand the scope of my strategies with more Python experience.
+With the help of skills picked up in FINMATH 25000: Quantitative Portfolio Management and Algorithmic Trading, along with advice from friends and trusted internet sources, I've embarked on this prospectively profitable project. My strateg(y)ies are currently simple and conventional. I aim to expand the scope of my strategies with more Python experience.
 
 All my Python is self-taught, so any suggestions about code would be greatly appreciated! Strategy advice always welcome, of course.
 
