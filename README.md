@@ -35,9 +35,11 @@ All my Python is self-taught, so any suggestions about code would be greatly app
   - Had to change my MACD strategy to long only positions, which made it not so market-neutral anymore
   - Luckily, backtested returns didn't take too big a hit. Most positive PnLs came from long positions, it historically seems.
 - Explored options for hosting my strategy on. Raspberry Pis are all still sold out :( hey, college students get discounts on Microsoft Azure though!
-- After much head-bashing, I've decided to leave Azure for real devs. I'm now hosting on pythonanywhere.com
+- After much head-bashing, I've decided to leave Azure for real devs (for now). I'm now hosting on pythonanywhere.com
 - Kraken seems to take a while processing bank transfers; may switch to FTX if necessary
 - MACD strategy implemented! Chugging along, not much action so far, as expected; on (12, 26, 9), ~two trades per month last 12 months
+- This strategy thankfully had no positions on during the FTX crash (11/9). However, I realize the frequency of these Black Swan events is higher than I gave credit for. There is also risk in centralized exchanges themselves, which obviously aren't reflected in backtesting.
+  - I have to re-evaluate my approach to risk
 
 ## To do goals:
 - Enact measures to deal with order not being filled (though extremely unlikely)
