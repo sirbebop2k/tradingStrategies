@@ -44,6 +44,6 @@ All my Python is self-taught, so any suggestions about code would be greatly app
 ## To do goals:
 - Enact measures to deal with order not being filled (though extremely unlikely)
 -  Strengthen MACD strategy by scaling our positions with stength of MACD swing (on top of existing measure). Two approaches:
-    -  scale position linearly with MACD signal strength (which would be either MACD or change in MACD)
-    -  run regression between MACD signal strength and position return. with the beta between the two and the variance around this, I'll take positions according to the Kelly Criterion
+    -  Scale position linearly with MACD signal strength (which would be either MACD or change in MACD)
+    -  Run regression between MACD signal strength and position return. with the beta between the two and the variance around this, I'll take positions according to the Kelly Criterion
 - Perhaps switch from REST to WebSockets to get more continuous data
