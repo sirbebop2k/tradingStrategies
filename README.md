@@ -46,4 +46,5 @@ All my Python is self-taught, so any suggestions about code would be greatly app
 -  Strengthen MACD strategy by scaling our positions with stength of MACD swing (on top of existing measure). Two approaches:
     -  Scale position linearly with MACD signal strength (which would be either MACD or change in MACD)
     -  Run regression between MACD signal strength and position return. With the beta between the two and the variance around this, I'll take positions according to the Kelly Criterion
+- Calculate win rates. I suspect I won't be happy with the results, but good to know.
 - Perhaps switch from REST to WebSockets to get more continuous data
