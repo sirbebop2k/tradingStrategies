@@ -8,7 +8,6 @@ secret1='insert_secret1'
 key2='insert_key2'
 secret2='insert_secret2'
 
-
 bot1 = strats.Bot(key=key1, secret=secret1)
 bot2 = strats.Bot(key=key2, secret=secret2)
 
