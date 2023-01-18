@@ -21,7 +21,8 @@ with open('kraken_api_key1.txt', 'r') as r:
     def_secret = lines[1]
 
 
-# credit to https://www.youtube.com/watch?v=XjVesu_G5yQ&t=1681s for API authentication methods #
+# credit to https://www.youtube.com/watch?v=XjVesu_G5yQ&t=1681s
+#   for API authentication methods #
 def get_kraken_signature(urlpath, data, secretkey):
     postdata = urllib.parse.urlencode(data)
     encoded = (str(data['nonce']) + postdata).encode()
@@ -32,14 +33,17 @@ def get_kraken_signature(urlpath, data, secretkey):
 
 
 def kraken_response(urlpath, data, api_key, api_pass):
-    headers = {"API-Key": api_key, "API-Sign": get_kraken_signature(urlpath, data, api_pass)}
+    headers = {"API-Key": api_key,
+               "API-Sign": get_kraken_signature(urlpath, data, api_pass)}
     resp = requests.post(api_url + urlpath, headers=headers, data=data)
     return resp
 
 
 # coin=None for all holdings, specify coin for float num of coin holding #
 def getHoldings(coin=None, key=def_key, secret=def_secret):
-    thing = kraken_response('/0/private/Balance', {'nonce': str(int(time.time() * 1000))}, key, secret).json()
+    thing = kraken_response('/0/private/Balance',
+                            {'nonce': str(int(time.time() * 1000))},
+                            key, secret).json()
     if thing['error'] == ['EAPI:Invalid key']:
         raise Exception('Key and/or Secret Invalid')
 
@@ -47,13 +51,15 @@ def getHoldings(coin=None, key=def_key, secret=def_secret):
         holding = float(thing['result'][coin])
         return holding
     else:
-        df = pd.DataFrame.from_dict(thing['result'], orient='index', columns=['quantity'])
+        df = pd.DataFrame.from_dict(thing['result'],
+                                    orient='index', columns=['quantity'])
         df = df.astype(float)
         return df
 
 
 def getUSDBalance(key=def_key, secret=def_secret):
-    thing = kraken_response('/0/private/Balance', {'nonce': str(int(time.time() * 1000))}, key, secret).json()
+    thing = kraken_response('/0/private/Balance',
+                            {'nonce': str(int(time.time() * 1000))}, key, secret).json()
     if thing['error'] == ['EAPI:Invalid key']:
         raise Exception('Key and/or Secret Invalid')
 
@@ -63,7 +69,8 @@ def getUSDBalance(key=def_key, secret=def_secret):
 
 
 def getDepositMethods(key=def_key, secret=def_secret):
-    thing = kraken_response('/0/private/DepositMethods', {'nonce': str(int(time.time() * 1000))}, key,
+    thing = kraken_response('/0/private/DepositMethods',
+                            {'nonce': str(int(time.time() * 1000))}, key,
                             secret).json()
     if thing['error'] == ['EAPI:Invalid key']:
         raise Exception('Key and/or Secret Invalid')
@@ -72,7 +79,8 @@ def getDepositMethods(key=def_key, secret=def_secret):
 
 
 def getTradeVolume(key=def_key, secret=def_secret):
-    thing = kraken_response('/0/private/TradeVolume', {'nonce': str(int(time.time() * 1000))}, key, secret).json()
+    thing = kraken_response('/0/private/TradeVolume',
+                            {'nonce': str(int(time.time() * 1000))}, key, secret).json()
     if thing['error'] == ['EAPI:Invalid key']:
         raise Exception('Key and/or Secret Invalid')
 
@@ -84,15 +92,18 @@ def getTradeVolume(key=def_key, secret=def_secret):
 def getOHLC(pair, interval=1, timestamp=0, key=def_key, secret=def_secret):
     if timestamp == 0:
         thing = kraken_response('/0/public/OHLC',
-                                {'nonce': str(int(time.time() * 1000)), 'pair': pair, 'interval': interval},
+                                {'nonce': str(int(time.time() * 1000)),
+                                 'pair': pair, 'interval': interval},
                                 key, secret).json()
     else:
         thing = kraken_response('/0/public/OHLC',
-                                {'nonce': str(int(time.time() * 1000)), 'pair': pair, 'interval': interval,
+                                {'nonce': str(int(time.time() * 1000)),
+                                 'pair': pair, 'interval': interval,
                                  'since': timestamp},
                                 key, secret).json()
     df = pd.DataFrame((thing['result'])[list(thing['result'])[0]],
-                      columns=['time', 'open', 'high', 'low', 'close', 'vwap', 'volume', 'count'])
+                      columns=['time', 'open', 'high', 'low',
+                               'close', 'vwap', 'volume', 'count'])
     df['time'] = df['time'].apply(lambda x: datetime.fromtimestamp(x))
     df.set_index('time', inplace=True)
     df = df.astype('float')
@@ -108,7 +119,8 @@ def getClose(pair, interval=1, timestamp=0, key=def_key, secret=def_secret):
 
 def getTickerInfo(pair, key=def_key, secret=def_secret):
     thing = kraken_response('/0/public/Ticker',
-                            {'nonce': str(int(time.time() * 1000)), 'pair': pair}, key, secret).json()
+                            {'nonce': str(int(time.time() * 1000)),
+                             'pair': pair}, key, secret).json()
     dct = thing['result'][list(thing['result'])[0]]
     dct['ask'] = dct.pop('a')
     dct['bid'] = dct.pop('b')
@@ -123,7 +135,8 @@ def getTickerInfo(pair, key=def_key, secret=def_secret):
     return dct
 
 
-def placeLimitOrder(key, secret, pair, direction, volume, price, oflags=None, validate=False):
+def placeLimitOrder(key, secret, pair, direction,
+                    volume, price, oflags=None, validate=False):
     conditions = {'nonce': str(int(time.time() * 1000)),
                   'pair': pair,
                   'ordertype': 'limit',
@@ -170,7 +183,9 @@ def getOpenOrders(key=def_key, secret=def_secret):
 
 
 def getTime(key=def_key, secret=def_secret):
-    thing = kraken_response('/0/public/Time', {'nonce': str(int(time.time() * 1000))}, key, secret).json()
+    thing = kraken_response('/0/public/Time',
+                            {'nonce': str(int(time.time() * 1000))},
+                            key, secret).json()
     t = (thing['result'])[list(thing['result'])[0]]
 
     return t
