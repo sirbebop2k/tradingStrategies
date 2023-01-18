@@ -42,11 +42,15 @@ def getMACDData_manual(data, fast, slow, third):
     return df
 
 
-# idea: issue long signal when MACD line crosses above 0, maintain until MACD stops increasing # issue short signal
-# when MACD line crosses above 0, maintain until MACD stops decreasing # after exiting position, re-enter if MACD
-# increases/decreases by a magnitude within the {quantile} quantile of directional MACD swings #
+# idea: issue long signal when MACD line crosses above 0,
+#   maintain until MACD stops increasing # issue short signal
+#   when MACD line crosses above 0, maintain until MACD
+#   stops decreasing # after exiting position, re-enter if MACD
+#   increases/decreases by a magnitude within the
+#   {quantile} quantile of directional MACD swings #
 
-def backtestMACD(data, starting=100, frac_traded=1, trade_fee=0, margin_fee=0, quantile=.1):
+def backtestMACD(data, starting=100, frac_traded=1,
+                 trade_fee=0, margin_fee=0, quantile=.1):
     frac = frac_traded
     cash = starting
     pos_del = deque() # list of past 100 positive MACD swings
@@ -121,7 +125,8 @@ def backtestMACD(data, starting=100, frac_traded=1, trade_fee=0, margin_fee=0, q
             holding_num = 0
 
         # unusually high negative histogram change after short exit, re-enter short #
-        elif this < 0 and (indicator == 0) and (len(neg_del) == 100) and (this - last < np.quantile(neg_del, quantile)):
+        elif this < 0 and (indicator == 0) and (len(neg_del) == 100)\
+                and (this - last < np.quantile(neg_del, quantile)):
             num_trades += 1
             indicator = -1
             holding_num -= cash * frac / close
@@ -227,7 +232,8 @@ def plotMACD(input, start=None, end=None):
     fig.show()
 
 
-# ranking coins based off of performance in indicated MACD configuration, over the past {index} periods #
+# ranking coins based off of performance in indicated
+#   MACD configuration, over the past {index} periods #
 # margin=True if able to take short positions #
 def rankCoins(interval, fast, slow, third, index=None, trade_fee=0, quantile=.1, margin=False):
 
@@ -260,14 +266,17 @@ def rankCoins(interval, fast, slow, third, index=None, trade_fee=0, quantile=.1,
     for item in coins:
         title = item + 'USD'
         if index:
-            data = (getMACDData(title, interval=interval, fast=fast, slow=slow, third=third)).iloc[-index:]
+            data = (getMACDData(title, interval=interval,
+                                fast=fast, slow=slow, third=third)).iloc[-index:]
         else:
             data = getMACDData(title, interval=interval, fast=fast, slow=slow, third=third)
 
         if margin:
-            returns = backtestMACD(data, starting=100, trade_fee=trade_fee, frac_traded=1, quantile=quantile)
+            returns = backtestMACD(data, starting=100,
+                                   trade_fee=trade_fee, frac_traded=1, quantile=quantile)
         else:
-            returns = backtestLongMACD(data, starting=100, trade_fee=trade_fee, frac_traded=1, quantile=quantile)
+            returns = backtestLongMACD(data, starting=100,
+                                       trade_fee=trade_fee, frac_traded=1, quantile=quantile)
         final = float(returns.iloc[-1, 2])
         dct[title] = final
         title = ''
